@@ -15,6 +15,8 @@ public class PlaylistsController {
 
   @Autowired private TrackRepository trackRepository;
 
+  @Autowired private PlaylistService playlistService;
+
   @GetMapping("/api/playlists")
   public Iterable<Playlist> playlists() {
     return playlistRepository.findAll();
@@ -22,7 +24,7 @@ public class PlaylistsController {
 
   @PostMapping("/api/playlists")
   public Playlist create(@RequestBody Playlist playlist) {
-    return playlistRepository.save(playlist);
+    return playlistRepository.save(playlistService.create(playlist));
   }
 
   @GetMapping("/api/playlists/{id}")

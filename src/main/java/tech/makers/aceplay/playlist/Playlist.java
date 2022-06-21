@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import tech.makers.aceplay.track.Track;
 
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 // https://www.youtube.com/watch?v=vreyOZxdb5Y&t=448s
@@ -18,6 +23,9 @@ public class Playlist {
   @ManyToMany(fetch = FetchType.EAGER)
   private Set<Track> tracks;
 
+  @Column(name="created_at", columnDefinition = "TIMESTAMP")
+  private LocalDateTime createdAt;
+
   public Playlist() {}
 
   public Playlist(String name) {
@@ -27,6 +35,13 @@ public class Playlist {
   public Playlist(String name, Set<Track> tracks) {
     this.name = name;
     this.tracks = tracks;
+    this.createdAt = LocalDateTime.now(Clock.systemUTC());
+  }
+
+  public Playlist(String name, Set<Track> tracks, Clock clock) {
+    this.name = name;
+    this.tracks = tracks;
+    this.createdAt = LocalDateTime.now(clock);
   }
 
   public String getName() {
@@ -47,6 +62,10 @@ public class Playlist {
       return Set.of();
     }
     return tracks;
+  }
+
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
   }
 
   @Override
