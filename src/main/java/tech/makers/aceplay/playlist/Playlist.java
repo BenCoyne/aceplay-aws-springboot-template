@@ -4,6 +4,13 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import tech.makers.aceplay.track.Track;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.Formula;
+import org.springframework.core.annotation.Order;
+
+import java.util.Collections;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.Set;
 
 // https://www.youtube.com/watch?v=vreyOZxdb5Y&t=448s
@@ -16,7 +23,9 @@ public class Playlist {
   private String name;
 
   @ManyToMany(fetch = FetchType.EAGER)
-  private Set<Track> tracks;
+  // @Formula("select p.name, ph.playlist_id, ph.track_id, t.id, t.title, t.artist, t.public_url, ph.added_to_playlist from playlist as p inner join playlist_history as ph on p.id = ph.playlist_id inner join track as t on t.id = ph.track_id order by ph.added_to_playlist asc;")
+  
+  private SortedSet<Track> tracks;
 
   public Playlist() {}
 
@@ -24,7 +33,7 @@ public class Playlist {
     this(name, null);
   }
 
-  public Playlist(String name, Set<Track> tracks) {
+  public Playlist(String name, SortedSet<Track> tracks) {
     this.name = name;
     this.tracks = tracks;
   }
@@ -42,9 +51,9 @@ public class Playlist {
   }
 
   @JsonGetter("tracks")
-  public Set<Track> getTracks() {
+  public SortedSet<Track> getTracks() {
     if (null == tracks) {
-      return Set.of();
+      return Collections.<Track>emptySortedSet();
     }
     return tracks;
   }
