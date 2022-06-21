@@ -1,11 +1,18 @@
 package tech.makers.aceplay.track;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import tech.makers.aceplay.playlist.PlaylistTracks;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 // https://www.youtube.com/watch?v=5r3QU09v7ig&t=2999s
 @Entity
@@ -19,6 +26,9 @@ public class Track {
   private String artist;
 
   private URL publicUrl;
+
+  @OneToMany(mappedBy = "track")
+  private Set<PlaylistTracks> playlists = new HashSet<PlaylistTracks>();
 
   public Track() { }
 
