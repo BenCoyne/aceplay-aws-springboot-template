@@ -40,14 +40,6 @@ public class PlaylistTracks implements Serializable {
     this.dateAdded = LocalDateTime.now(Clock.systemUTC());
   }
 
-  public Long getId() { 
-    return id;
-  }
-
-  public Playlist getPlaylist() {
-    return playlist;
-  }
-
   public Track getTrack() {
     return track;
   }
