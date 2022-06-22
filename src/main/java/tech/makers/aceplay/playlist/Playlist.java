@@ -3,12 +3,9 @@ package tech.makers.aceplay.playlist;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import tech.makers.aceplay.playlisttracks.PlaylistTracks;
-import tech.makers.aceplay.track.Track;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
 
 import javax.persistence.*;
 
