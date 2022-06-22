@@ -5,8 +5,12 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import tech.makers.aceplay.playlisttracks.PlaylistTracks;
 import tech.makers.aceplay.track.Track;
 
-import javax.persistence.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+
+import javax.persistence.*;
 
 // https://www.youtube.com/watch?v=vreyOZxdb5Y&t=448s
 @Entity
@@ -18,7 +22,8 @@ public class Playlist {
   private String name;
 
   @OneToMany(mappedBy = "playlist")
-  private Set<PlaylistTracks> tracks;
+  @OrderBy(value = "dateAdded")
+  private List<PlaylistTracks> tracks;
 
   public Playlist() {}
 
@@ -26,7 +31,7 @@ public class Playlist {
     this(name, null);
   }
 
-  public Playlist(String name, Set<PlaylistTracks> tracks) {
+  public Playlist(String name, List<PlaylistTracks> tracks) {
     this.name = name;
     this.tracks = tracks;
   }
@@ -44,9 +49,9 @@ public class Playlist {
   }
 
   @JsonGetter("tracks")
-  public Set<PlaylistTracks> getTracks() {
+  public List<PlaylistTracks> getTracks() {
     if (null == tracks) {
-      return Set.of();
+      return Collections.<PlaylistTracks>emptyList();
     }
     return tracks;
   }
