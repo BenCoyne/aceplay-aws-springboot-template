@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import org.springframework.data.annotation.CreatedDate;
+
 @Embeddable
 public class PlaylistHistoryId implements Serializable {
 
@@ -15,6 +17,7 @@ public class PlaylistHistoryId implements Serializable {
     @Column(name = "track_id")
     private Long trackId;
 
-    @Column(name = "date_added_to_playlist")
+    @Column(name = "date_added_to_playlist", columnDefinition = "TIMESTAMP")
+    @CreatedDate
     private LocalDateTime dateAddedToPlaylist;
 }

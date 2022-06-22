@@ -23,12 +23,12 @@ public class PlaylistTracks implements Serializable {
     private PlaylistHistoryId id;
 
     @ManyToOne
-    @MapsId("playlist_id") //This is the name of attr in EmployerDeliveryAgentPK class
+    @MapsId("playlist_id")
     @JoinColumn(name = "playlist_id")
     private Playlist playlist;
 
     @ManyToOne
     @MapsId("track_id")
     @JoinColumn(name = "track_id")
-    private Track track;    
+    private Track track;
 }
