@@ -1,6 +1,8 @@
 package tech.makers.aceplay.playlist;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+
+import tech.makers.aceplay.playlisttracks.PlaylistTracks;
 import tech.makers.aceplay.track.Track;
 
 import javax.persistence.*;
@@ -15,8 +17,8 @@ public class Playlist {
 
   private String name;
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  private Set<Track> tracks;
+  @OneToMany(mappedBy = "playlist")
+  private Set<PlaylistTracks> tracks;
 
   public Playlist() {}
 
@@ -24,7 +26,7 @@ public class Playlist {
     this(name, null);
   }
 
-  public Playlist(String name, Set<Track> tracks) {
+  public Playlist(String name, Set<PlaylistTracks> tracks) {
     this.name = name;
     this.tracks = tracks;
   }
@@ -42,7 +44,7 @@ public class Playlist {
   }
 
   @JsonGetter("tracks")
-  public Set<Track> getTracks() {
+  public Set<PlaylistTracks> getTracks() {
     if (null == tracks) {
       return Set.of();
     }

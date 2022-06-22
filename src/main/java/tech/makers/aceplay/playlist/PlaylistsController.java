@@ -3,6 +3,9 @@ package tech.makers.aceplay.playlist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import tech.makers.aceplay.playlisttracks.PlaylistTracks;
+import tech.makers.aceplay.playlisttracks.PlaylistTracksRepository;
 import tech.makers.aceplay.track.Track;
 import tech.makers.aceplay.track.TrackRepository;
 
@@ -14,6 +17,8 @@ public class PlaylistsController {
   @Autowired private PlaylistRepository playlistRepository;
 
   @Autowired private TrackRepository trackRepository;
+
+  @Autowired private PlaylistTracksRepository playlistTracksRepository;
 
   @GetMapping("/api/playlists")
   public Iterable<Playlist> playlists() {
@@ -32,13 +37,13 @@ public class PlaylistsController {
   }
 
   @PutMapping("/api/playlists/{id}/tracks")
-  public Track addTrack(@PathVariable Long id, @RequestBody TrackIdentifierDto trackIdentifierDto) {
+  public PlaylistTracks addTrack(@PathVariable Long id, @RequestBody TrackIdentifierDto trackIdentifierDto) {
     Playlist playlist = playlistRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No playlist exists with id " + id));
     Track track = trackRepository.findById(trackIdentifierDto.getId())
             .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "No track exists with id " + trackIdentifierDto.getId()));
-    playlist.getTracks().add(track);
-    playlistRepository.save(playlist);
-    return track;
+    PlaylistTracks playlistTracks = new PlaylistTracks(playlist, track);
+
+    return playlistTracksRepository.save(playlistTracks);
   }
 }
