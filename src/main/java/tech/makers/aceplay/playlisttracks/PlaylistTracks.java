@@ -1,5 +1,6 @@
 package tech.makers.aceplay.playlisttracks;
 
+import java.io.Serializable;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
@@ -15,7 +16,7 @@ import tech.makers.aceplay.playlist.Playlist;
 import tech.makers.aceplay.track.Track;
 
 @Entity
-public class PlaylistTracks extends Serializable{
+public class PlaylistTracks implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -31,9 +32,27 @@ public class PlaylistTracks extends Serializable{
   @Column(name = "date_added")
   private LocalDateTime dateAdded;
 
+  public PlaylistTracks() {}
+
   public PlaylistTracks(Playlist playlist, Track track) {
     this.playlist = playlist;
     this.track = track;
     this.dateAdded = LocalDateTime.now(Clock.systemUTC());
+  }
+
+  public Long getId() { 
+    return id;
+  }
+
+  public Playlist getPlaylist() {
+    return playlist;
+  }
+
+  public Track getTrack() {
+    return track;
+  }
+
+  public LocalDateTime getDateAdded() {
+    return dateAdded;
   }
 }
